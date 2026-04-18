@@ -30,7 +30,8 @@ export const Navigation = () => {
         backdropFilter="blur(8px)"
       >
         <Flex align="center" justify="space-between" maxW="1100px" mx="auto">
-          {/* Logo / App naam */}
+          {/* Logo */}
+
           <Text
             fontWeight="800"
             fontSize="xl"
@@ -42,6 +43,7 @@ export const Navigation = () => {
           </Text>
 
           {/* Nav links */}
+
           <HStack gap="2">
             {navLinks.map(({ label, to }) => {
               const isActive = location.pathname === to;

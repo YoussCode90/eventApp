@@ -10,7 +10,7 @@ export default function AboutPage() {
           color="gray.900"
           _dark={{ color: "white" }}
         >
-          Over Eventify
+          Over EventPlanner
         </Heading>
 
         <Text

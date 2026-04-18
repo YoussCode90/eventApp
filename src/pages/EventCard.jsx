@@ -58,7 +58,7 @@ export default function EventCard({ event, categories }) {
         {/* startTime & endTime */}
         <Box mb="3">
           <Text fontSize="xs" color="gray.400" _dark={{ color: "gray.500" }}>
-            🕐 {formatDateTime(event.startTime)} — {formatDateTime(event.endTime)}
+            {formatDateTime(event.startTime)} — {formatDateTime(event.endTime)}
           </Text>
         </Box>
 

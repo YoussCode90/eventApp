@@ -43,15 +43,10 @@ export default function DeleteDialog({ open, onClose, onConfirm, loading }) {
         </Text>
 
         <Box display="flex" justifyContent="flex-end" gap="3">
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            borderRadius="lg"
-          >
+          <Button variant="ghost" onClick={onClose} borderRadius="lg">
             Annuleren
           </Button>
 
-          {/* Chakra v3 gebruikt `loading` niet `isLoading` */}
           <Button
             colorPalette="red"
             onClick={onConfirm}
