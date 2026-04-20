@@ -1,6 +1,16 @@
 import { Box, Button, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 export default function DeleteDialog({ open, onClose, onConfirm, loading }) {
+  // Sluit de dialog wanneer de gebruiker op Escape drukt
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
   if (!open) return null;
 
   return (

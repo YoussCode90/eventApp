@@ -16,7 +16,11 @@ export default function CheckboxList({
         >
           <Checkbox.HiddenInput />
           <Checkbox.Control borderRadius="md" />
-          <Checkbox.Label fontSize="sm" color="gray.700" _dark={{ color: "gray.300" }}>
+          <Checkbox.Label
+            fontSize="sm"
+            color="gray.700"
+            _dark={{ color: "gray.300" }}
+          >
             {c.name}
           </Checkbox.Label>
         </Checkbox.Root>

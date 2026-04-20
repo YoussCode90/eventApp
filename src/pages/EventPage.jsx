@@ -13,10 +13,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEventContext } from "../components/EventContext";
 import { toaster } from "../components/ui/toaster";
-import DeleteDialog from "./DeleteDialog";
-import EditEventForm from "./EditEventForm";
-import SimpleDialog from "./SimpleDialog";
+import EditEventForm from "../forms/EditEventForm";
+import DeleteDialog from "../shared/DeleteDialog";
+import SimpleDialog from "../shared/SimpleDialog";
 
+// Formateer datum en tijd naar Nederlands formaat
 function formatDateTime(str) {
   if (!str) return "";
   return new Date(str).toLocaleString("nl-NL", {
@@ -27,12 +28,11 @@ function formatDateTime(str) {
 
 export const EventPage = () => {
   const { eventId } = useParams();
-  const { categories } = useEventContext();
+  const { categories, refresh } = useEventContext();
   const navigate = useNavigate();
 
   const [event, setEvent] = useState(null);
   const [fetchError, setFetchError] = useState(false);
-
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,6 +41,7 @@ export const EventPage = () => {
     const loadEvent = async () => {
       try {
         const res = await fetch(`http://localhost:3000/events/${eventId}`);
+        if (!res.ok) throw new Error();
         const data = await res.json();
         setEvent(data);
       } catch {
@@ -51,6 +52,7 @@ export const EventPage = () => {
     loadEvent();
   }, [eventId]);
 
+  // Verwijder het event en navigeer terug naar de homepage
   const handleDelete = async () => {
     setLoading(true);
     try {
@@ -58,6 +60,7 @@ export const EventPage = () => {
         method: "DELETE",
       });
       if (!res.ok) throw new Error();
+      await refresh();
       toaster.success({ title: "Event deleted" });
       setDeleteOpen(false);
       navigate("/");
@@ -71,8 +74,12 @@ export const EventPage = () => {
   if (fetchError) {
     return (
       <Box p="8" textAlign="center">
-        <Text fontSize="lg" color="red.400">Event kon niet worden geladen.</Text>
-        <Button mt="4" onClick={() => navigate("/")}>Terug naar events</Button>
+        <Text fontSize="lg" color="red.400">
+          Event kon niet worden geladen.
+        </Text>
+        <Button mt="4" onClick={() => navigate("/")}>
+          Terug naar events
+        </Button>
       </Box>
     );
   }
@@ -105,6 +112,7 @@ export const EventPage = () => {
 
       <Image
         src={event.image}
+        alt={event.title}
         fallbackSrc="https://placehold.co/800x420?text=No+Image"
         borderRadius="2xl"
         mb="6"
@@ -131,25 +139,50 @@ export const EventPage = () => {
         py="3"
         borderRadius="lg"
         bg="gray.50"
-        _dark={{ bg: "gray.700" }}
         borderWidth="1px"
         borderColor="gray.200"
-        _dark_borderColor="gray.600"
+        _dark={{ bg: "gray.700", borderColor: "gray.600" }}
       >
         <HStack gap="6" wrap="wrap">
           <Box>
-            <Text fontSize="xs" fontWeight="600" color="gray.400" textTransform="uppercase" letterSpacing="wide" mb="0.5">
+            <Text
+              fontSize="xs"
+              fontWeight="600"
+              color="gray.400"
+              _dark={{ color: "gray.300" }}
+              textTransform="uppercase"
+              letterSpacing="wide"
+              mb="0.5"
+            >
               Start
             </Text>
-            <Text fontSize="sm" fontWeight="500" color="gray.700" _dark={{ color: "gray.200" }}>
+            <Text
+              fontSize="sm"
+              fontWeight="500"
+              color="gray.700"
+              _dark={{ color: "gray.200" }}
+            >
               {formatDateTime(event.startTime)}
             </Text>
           </Box>
           <Box>
-            <Text fontSize="xs" fontWeight="600" color="gray.400" textTransform="uppercase" letterSpacing="wide" mb="0.5">
+            <Text
+              fontSize="xs"
+              fontWeight="600"
+              color="gray.400"
+              _dark={{ color: "gray.300" }}
+              textTransform="uppercase"
+              letterSpacing="wide"
+              mb="0.5"
+            >
               Einde
             </Text>
-            <Text fontSize="sm" fontWeight="500" color="gray.700" _dark={{ color: "gray.200" }}>
+            <Text
+              fontSize="sm"
+              fontWeight="500"
+              color="gray.700"
+              _dark={{ color: "gray.200" }}
+            >
               {formatDateTime(event.endTime)}
             </Text>
           </Box>
@@ -193,7 +226,11 @@ export const EventPage = () => {
         </Button>
       </HStack>
 
-      <SimpleDialog open={editOpen} onClose={() => setEditOpen(false)} title="Edit Event">
+      <SimpleDialog
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        title="Edit Event"
+      >
         <EditEventForm event={event} onClose={() => setEditOpen(false)} />
       </SimpleDialog>
 

@@ -1,10 +1,40 @@
 import { Box, Button, Text } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 
-export default function SimpleDialog({ open, onClose, title, children }) {
+export default function SimpleDialog({
+  open = false,
+  onClose,
+  title,
+  children,
+}) {
+  const overlayRef = useRef(null);
+
+  // Sluit met Escape (alleen als open)
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKey = (e) => {
+      if (e.key === "Escape") {
+        onClose?.();
+      }
+    };
+
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [open, onClose]);
+
+  // Sluit bij klik buiten dialog
+  const handleOverlayClick = (e) => {
+    if (e.target === overlayRef.current) {
+      onClose?.();
+    }
+  };
+
   if (!open) return null;
 
   return (
     <Box
+      ref={overlayRef}
       position="fixed"
       inset="0"
       bg="blackAlpha.600"
@@ -13,6 +43,7 @@ export default function SimpleDialog({ open, onClose, title, children }) {
       justifyContent="center"
       zIndex="9999"
       px="4"
+      onClick={handleOverlayClick}
     >
       <Box
         bg="white"
@@ -24,6 +55,7 @@ export default function SimpleDialog({ open, onClose, title, children }) {
         boxShadow="2xl"
         maxH="90vh"
         overflowY="auto"
+        onClick={(e) => e.stopPropagation()} // voorkomt sluiten bij klik binnen
       >
         <Text
           fontWeight="700"
@@ -41,7 +73,7 @@ export default function SimpleDialog({ open, onClose, title, children }) {
           mt="5"
           w="full"
           variant="ghost"
-          onClick={() => onClose(false)}
+          onClick={() => onClose?.()}
           borderRadius="lg"
         >
           Sluiten

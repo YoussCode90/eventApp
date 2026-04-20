@@ -1,4 +1,4 @@
-import { HStack, IconButton, Text } from "@chakra-ui/react";
+import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 
@@ -29,18 +29,43 @@ export function ColorModeToggle() {
       onClick={toggle}
       cursor="pointer"
       px="3"
-      py="1.5"
-      borderWidth="1px"
+      py="2"
       borderRadius="full"
-      bg="transparent"
-      _hover={{ bg: "blackAlpha.200" }}
-      transition="0.2s"
+      bg={dark ? "gray.700" : "gray.200"}
+      transition="all 0.25s"
+      spacing="3"
+      userSelect="none"
     >
-      <IconButton aria-label="toggle theme" size="sm" variant="ghost">
-        {dark ? <LuMoon /> : <LuSun />}
-      </IconButton>
+      {/* Switch track */}
+      <Box
+        position="relative"
+        w="42px"
+        h="22px"
+        borderRadius="full"
+        bg={dark ? "teal.400" : "gray.400"}
+        transition="all 0.25s"
+      >
+        {/* Switch knob */}
+        <Box
+          position="absolute"
+          top="2px"
+          left={dark ? "22px" : "2px"}
+          w="18px"
+          h="18px"
+          borderRadius="full"
+          bg="white"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          transition="all 0.25s"
+        >
+          <Icon as={dark ? LuSun : LuMoon} fontSize="12px" />
+        </Box>
+      </Box>
 
-      <Text fontSize="sm">{dark ? "Dark" : "Light"}</Text>
+      <Text fontSize="sm" fontWeight="500" color={dark ? "white" : "gray.700"}>
+        {dark ? "Light mode" : "Dark mode"}
+      </Text>
     </HStack>
   );
 }

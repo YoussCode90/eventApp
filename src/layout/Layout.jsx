@@ -5,9 +5,8 @@ export default function Layout({ children }) {
     <Box
       minH="100vh"
       bg="gray.50"
-      _dark={{ bg: "gray.900" }}
+      _dark={{ bg: "gray.900", color: "white" }}
       color="gray.900"
-      _dark_color="white"
     >
       {children}
     </Box>

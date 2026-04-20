@@ -24,6 +24,8 @@ export default function AboutPage() {
 
         <Image
           src="https://www.easymoving.be/wp-content/uploads/Under-Construction.jpg"
+          alt="Pagina in aanbouw"
+          fallbackSrc="https://www.creativefabrica.com/wp-content/uploads/2022/03/09/under-construction-road-sign-Graphics-26776427-1.jpg"
           borderRadius="2xl"
           w="100%"
           maxW="420px"

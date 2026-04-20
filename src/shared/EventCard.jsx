@@ -1,5 +1,6 @@
 import { Badge, Box, HStack, Image, Text } from "@chakra-ui/react";
 
+// Formateer datum en tijd naar Nederlands formaat
 function formatDateTime(str) {
   if (!str) return "";
   return new Date(str).toLocaleString("nl-NL", {
@@ -8,7 +9,16 @@ function formatDateTime(str) {
   });
 }
 
-export default function EventCard({ event, categories }) {
+export default function EventCard({ event = {}, categories = [] }) {
+  const {
+    title = "Onbekend event",
+    description = "",
+    image,
+    startTime,
+    endTime,
+    categoryIds = [],
+  } = event;
+
   return (
     <Box
       borderWidth="1px"
@@ -25,8 +35,9 @@ export default function EventCard({ event, categories }) {
       }}
     >
       <Image
-        src={event.image}
-        fallbackSrc="https://placehold.co/600x300?text=No+Image"
+        src={image}
+        alt={title}
+        fallbackSrc="https://cdn.vectorstock.com/i/1000v/70/01/no-image-symbol-missing-available-icon-gallery-vector-42607001.jpg"
         h="180px"
         w="100%"
         objectFit="cover"
@@ -41,7 +52,7 @@ export default function EventCard({ event, categories }) {
           color="gray.900"
           _dark={{ color: "white" }}
         >
-          {event.title}
+          {title}
         </Text>
 
         <Text
@@ -52,23 +63,26 @@ export default function EventCard({ event, categories }) {
           mb="3"
           lineHeight="1.5"
         >
-          {event.description}
+          {description}
         </Text>
 
         {/* startTime & endTime */}
         <Box mb="3">
           <Text fontSize="xs" color="gray.400" _dark={{ color: "gray.500" }}>
-            {formatDateTime(event.startTime)} — {formatDateTime(event.endTime)}
+            {formatDateTime(startTime)} — {formatDateTime(endTime)}
           </Text>
         </Box>
 
-        <HStack wrap="wrap" gap="1">
-          {event.categoryIds?.map((id) => {
+        <HStack wrap="wrap" spacing="1">
+          {categoryIds.map((id) => {
             const cat = categories.find((c) => c.id === id);
-            return cat ? (
+
+            if (!cat) return null;
+
+            return (
               <Badge
                 key={id}
-                colorPalette="teal"
+                colorScheme="teal"
                 variant="subtle"
                 fontSize="xs"
                 borderRadius="full"
@@ -76,7 +90,7 @@ export default function EventCard({ event, categories }) {
               >
                 {cat.name}
               </Badge>
-            ) : null;
+            );
           })}
         </HStack>
       </Box>

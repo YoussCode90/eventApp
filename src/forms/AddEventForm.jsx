@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useEventContext } from "../components/EventContext";
 import { toaster } from "../components/ui/toaster";
-import CheckboxList from "./CheckboxList";
-import EventFormFields from "./EventFormFields";
+import EventFormFields from "../forms/EventFormFields";
+import CheckboxList from "../shared/CheckboxList";
 
 export default function AddEventForm({ onClose }) {
   const { refresh, categories } = useEventContext();
@@ -13,9 +13,10 @@ export default function AddEventForm({ onClose }) {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Toggle een categorie aan of uit
   const toggle = (id) => {
     setSelected((p) =>
-      p.includes(id) ? p.filter((c) => c !== id) : [...p, id]
+      p.includes(id) ? p.filter((c) => c !== id) : [...p, id],
     );
   };
 
