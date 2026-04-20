@@ -47,15 +47,15 @@
       "id": 3,
       "createdBy": 2,
       "title": "Badminton game",
-      "description": "Hit that shuttle!",
+      "description": "Hit that shuttle!!",
       "image": "https://wincacademy.github.io/webpages/media/pexels-vladvictoria-2202685.jpg",
       "categoryIds": [
         1,
         2
       ],
       "location": "The Park",
-      "startTime": "2023-03-15T12:00:00.000Z",
-      "endTime": "2023-03-15T13:30:00.000Z"
+      "startTime": "2026-04-20T22:00",
+      "endTime": "2026-04-29T23:03"
     },
     {
       "id": 4,
@@ -67,8 +67,8 @@
         3
       ],
       "location": "Shavasana Yoga School",
-      "startTime": "2023-03-09T06:00:00.000Z",
-      "endTime": "2023-03-09T07:00:00.000Z"
+      "startTime": "2026-04-22T01:03",
+      "endTime": "2026-04-30T23:00"
     },
     {
       "id": 5,

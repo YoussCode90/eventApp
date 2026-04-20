@@ -105,7 +105,7 @@ export const Navigation = () => {
               w="fit-content"
               whiteSpace="nowrap"
             >
-              + Add
+              Add Event
             </Link>
 
             <ColorModeToggle />
